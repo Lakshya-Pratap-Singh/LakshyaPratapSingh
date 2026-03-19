@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Projects — Lakshya Pratap Singh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--tt:background .5s,color .5s,border-color .5s,box-shadow .4s}
+[data-theme="dark"]{--bg:#060910;--bg2:#090e18;--surface:#0d1520;--border:#1a2840;--border2:#243552;--accent:#38bdf8;--accent2:#818cf8;--accent3:#f472b6;--text:#f0f6ff;--text2:#94a3b8;--muted:#4a6380;--card:#0c1622;--card-h:#111f30;--glow:rgba(56,189,248,.15);--glow2:rgba(129,140,248,.12);--nav-bg:rgba(6,9,16,.85);--shine:rgba(255,255,255,.1)}
+[data-theme="light"]{--bg:#f5f8ff;--bg2:#eef2ff;--surface:#ffffff;--border:#dde5f0;--border2:#c3d0e8;--accent:#0284c7;--accent2:#4f46e5;--accent3:#db2777;--text:#0f172a;--text2:#334155;--muted:#64748b;--card:#ffffff;--card-h:#f0f5ff;--glow:rgba(2,132,199,.1);--glow2:rgba(79,70,229,.08);--nav-bg:rgba(245,248,255,.9);--shine:rgba(255,255,255,.6)}
+[data-theme="bright"]{--bg:#fffbf0;--bg2:#fff8e1;--surface:#ffffff;--border:#fde68a;--border2:#fbbf24;--accent:#d97706;--accent2:#7c3aed;--accent3:#e11d48;--text:#1c1917;--text2:#44403c;--muted:#78716c;--card:#ffffff;--card-h:#fffbeb;--glow:rgba(217,119,6,.12);--glow2:rgba(124,58,237,.1);--nav-bg:rgba(255,251,240,.92);--shine:rgba(255,255,255,.7)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;transition:var(--tt)}
+body::after{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E")}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:var(--nav-bg);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);transition:var(--tt)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;font-style:italic;color:var(--accent);letter-spacing:-.02em;text-decoration:none;opacity:0;animation:fadeD .6s .1s forwards}
+.nav-right{display:flex;align-items:center;gap:1.8rem;opacity:0;animation:fadeD .6s .2s forwards}
+.nav-links{display:flex;gap:1.6rem;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.73rem;letter-spacing:.07em;text-transform:uppercase;transition:color .25s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1.5px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .3s;border-radius:2px}
+.nav-links a:hover,.nav-links a.active{color:var(--accent)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.btn-talk{position:relative;overflow:hidden;padding:.58rem 1.5rem;border-radius:100px;border:none;font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:.05em;color:#fff;white-space:nowrap;background:linear-gradient(135deg,var(--accent2),var(--accent3));box-shadow:0 0 0 1px rgba(129,140,248,.4),0 4px 20px rgba(129,140,248,.4);transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s,filter .25s;cursor:pointer}
+.btn-talk:hover{transform:translateY(-4px) scale(1.08);filter:brightness(1.12)}
+.theme-btn{width:72px;height:26px;border-radius:100px;background:var(--border2);border:none;position:relative;transition:background .4s;flex-shrink:0;cursor:pointer}
+.theme-btn::before{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+[data-theme="light"] .theme-btn::before{transform:translateX(23px)}
+[data-theme="bright"] .theme-btn::before{transform:translateX(46px)}
+.theme-icons{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:space-around;padding:0 4px;font-size:10px}
+.nav-menu-btn{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px}
+.nav-menu-btn span{display:block;width:24px;height:2px;background:var(--text2);border-radius:2px;transition:all .3s}
+.nav-menu-btn.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-menu-btn.open span:nth-child(2){opacity:0}
+.nav-menu-btn.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{display:none;position:fixed;top:60px;left:0;right:0;background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);z-index:499;flex-direction:column;padding:1.5rem 2rem;gap:1rem}
+.nav-drawer.open{display:flex}
+.nav-drawer a{color:var(--text2);text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:.82rem;letter-spacing:.07em;text-transform:uppercase;padding:.5rem 0;border-bottom:1px solid var(--border);transition:color .2s}
+.nav-drawer a:hover,.nav-drawer a.active{color:var(--accent)}
+.nav-drawer a:last-child{border-bottom:none}
+
+/* ── FLOATING ORBS ── */
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;animation:orbDrift ease-in-out infinite alternate}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(56,189,248,.09),transparent 70%);top:-15%;left:-10%;animation-duration:18s}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(129,140,248,.08),transparent 70%);bottom:10%;right:-8%;animation-duration:22s;animation-delay:-6s}
+.orb-3{width:350px;height:350px;background:radial-gradient(circle,rgba(244,114,182,.07),transparent 70%);top:45%;left:40%;animation-duration:15s;animation-delay:-3s}
+@keyframes orbDrift{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-40px) scale(1.06)}100%{transform:translateY(20px) scale(.95)}}
+.grid-lines{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:80px 80px;opacity:.25;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,transparent 100%)}
+[data-theme="light"] .grid-lines{opacity:.12}
+
+/* ── PAGE HERO ── */
+.page-hero{padding:9rem 4rem 4rem;position:relative;z-index:2;max-width:1200px;margin:0 auto}
+.page-hero-badge{display:inline-flex;align-items:center;gap:.6rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent);letter-spacing:.16em;text-transform:uppercase;border:1px solid rgba(56,189,248,.25);padding:.45rem 1.1rem;border-radius:100px;background:rgba(56,189,248,.06);margin-bottom:1.6rem;opacity:0;animation:fadeU .7s .3s forwards}
+.dot-live{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:livePulse 2s infinite;flex-shrink:0}
+@keyframes livePulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(.7);opacity:.35}}
+.page-hero h1{font-family:'Playfair Display',serif;font-weight:900;letter-spacing:-.04em;line-height:1.1;font-size:clamp(2.6rem,5vw,4.2rem);opacity:0;animation:fadeU .9s .45s forwards}
+.page-hero h1 em{font-style:italic;background:linear-gradient(120deg,var(--accent) 0%,var(--accent2) 45%,var(--accent3) 100%);background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gShift 7s ease infinite}
+@keyframes gShift{0%,100%{background-position:0%}50%{background-position:100%}}
+.page-hero p{margin-top:1.2rem;font-size:1rem;color:var(--text2);line-height:1.8;max-width:600px;opacity:0;animation:fadeU .8s .6s forwards}
+.page-hero-stats{display:flex;gap:2.5rem;margin-top:2rem;flex-wrap:wrap;opacity:0;animation:fadeU .8s .75s forwards}
+.ph-stat{display:flex;flex-direction:column;gap:.2rem}
+.ph-stat-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--text);line-height:1}
+.ph-stat-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+
+/* ── SECTION ── */
+.sec{padding:2rem 4rem 5rem;position:relative;z-index:2;max-width:1260px;margin:0 auto}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--accent3);letter-spacing:.22em;text-transform:uppercase;margin-bottom:.7rem;display:flex;align-items:center;gap:.6rem}
+.sec-label::before{content:'';width:20px;height:1.5px;background:var(--accent3);border-radius:2px;display:inline-block}
+.sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:900;letter-spacing:-.03em;margin-bottom:2.4rem}
+.sec-title em{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ── DIVIDER ── */
+.sec-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:0 4rem;z-index:2;position:relative}
+
+/* ── PROJECT GRID ── */
+.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.2rem}
+.proj-card-full{background:var(--card);border:1.5px solid var(--border);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;position:relative;transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .4s,border-color .3s}
+[data-theme="light"] .proj-card-full{background:#fff;box-shadow:0 4px 24px rgba(0,0,0,.07)}
+.proj-card-full::after{content:'';position:absolute;inset:-1px;border-radius:28px;opacity:0;z-index:-1;transition:opacity .4s}
+.pc-cyan::after{background:linear-gradient(135deg,rgba(56,189,248,.8),rgba(129,140,248,.5))}
+.pc-violet::after{background:linear-gradient(135deg,rgba(129,140,248,.8),rgba(244,114,182,.5))}
+.pc-orange::after{background:linear-gradient(135deg,rgba(251,146,60,.8),rgba(56,189,248,.4))}
+.pc-pink::after{background:linear-gradient(135deg,rgba(244,114,182,.8),rgba(129,140,248,.5))}
+.pc-green::after{background:linear-gradient(135deg,rgba(52,211,153,.8),rgba(56,189,248,.5))}
+.pc-amber::after{background:linear-gradient(135deg,rgba(251,191,36,.8),rgba(244,114,182,.4))}
+.pc-red::after{background:linear-gradient(135deg,rgba(248,113,113,.8),rgba(251,146,60,.5))}
+.proj-card-full:hover::after{opacity:.55}
+.pc-cyan:hover{transform:translateY(-10px);box-shadow:0 36px 90px rgba(56,189,248,.25);border-color:transparent}
+.pc-violet:hover{transform:translateY(-10px);box-shadow:0 36px 90px rgba(129,140,248,.25);border-color:transparent}
+.pc-orange:hover{transform:translateY(-10px);box-shadow:0 36px 90px rgba(251,146,60,.25);border-color:transparent}
+.pc-pink:hover{transform:translateY(-10px);box-shadow:0 36px 90px rgba(244,114,182,.25);border-color:transparent}
+.pc-green:hover{transform:translateY(-10px);box-shadow:0 36px 90px rgba(52,211,153,.25);border-color:transparent}
+.pc-amber:hover{transform:translateY(-10px);box-shadow:0 36px 90px rgba(251,191,36,.2);border-color:transparent}
+.pc-red:hover{transform:translateY(-10px);box-shadow:0 36px 90px rgba(248,113,113,.2);border-color:transparent}
+
+/* Banner */
+.proj-banner{height:220px;display:flex;gap:.8rem;padding:1.6rem;position:relative;overflow:hidden}
+.pc-cyan   .proj-banner{background:linear-gradient(140deg,rgba(56,189,248,.18),rgba(56,189,248,.04))}
+.pc-violet .proj-banner{background:linear-gradient(140deg,rgba(129,140,248,.18),rgba(129,140,248,.04))}
+.pc-orange .proj-banner{background:linear-gradient(140deg,rgba(251,146,60,.18),rgba(251,146,60,.04))}
+.pc-pink   .proj-banner{background:linear-gradient(140deg,rgba(244,114,182,.18),rgba(244,114,182,.04))}
+.pc-green  .proj-banner{background:linear-gradient(140deg,rgba(52,211,153,.18),rgba(52,211,153,.04))}
+.pc-amber  .proj-banner{background:linear-gradient(140deg,rgba(251,191,36,.18),rgba(251,191,36,.04))}
+.pc-red    .proj-banner{background:linear-gradient(140deg,rgba(248,113,113,.18),rgba(248,113,113,.04))}
+.proj-banner::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 20px,rgba(255,255,255,.012) 20px,rgba(255,255,255,.012) 21px),repeating-linear-gradient(90deg,transparent,transparent 20px,rgba(255,255,255,.012) 20px,rgba(255,255,255,.012) 21px);pointer-events:none}
+.proj-banner::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60%;background:linear-gradient(to top,var(--card),transparent);pointer-events:none}
+[data-theme="light"] .proj-banner::after{background:linear-gradient(to top,#fff,transparent)}
+.bn-panel{flex:1;border-radius:12px;border:1px solid var(--border);background:var(--border2);display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative;overflow:hidden;min-height:100%;transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.bn-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:8px;border-radius:8px 8px 0 0}
+.pc-cyan   .bn-panel::before{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.pc-violet .bn-panel::before{background:linear-gradient(90deg,var(--accent2),var(--accent3))}
+.pc-orange .bn-panel::before{background:linear-gradient(90deg,#f97316,#fb923c)}
+.pc-pink   .bn-panel::before{background:linear-gradient(90deg,var(--accent3),#e879f9)}
+.pc-green  .bn-panel::before{background:linear-gradient(90deg,#34d399,#06b6d4)}
+.pc-amber  .bn-panel::before{background:linear-gradient(90deg,#fbbf24,#f472b6)}
+.pc-red    .bn-panel::before{background:linear-gradient(90deg,#f87171,#fb923c)}
+.bn-panel::after{content:'● ● ●';position:absolute;top:12px;left:10px;font-size:.3rem;letter-spacing:4px;opacity:.55;line-height:1}
+.pc-cyan   .bn-panel::after,.pc-green .bn-panel::after{color:var(--accent)}
+.pc-violet .bn-panel::after{color:var(--accent2)}
+.pc-orange .bn-panel::after,.pc-amber .bn-panel::after{color:#fb923c}
+.pc-pink   .bn-panel::after,.pc-red .bn-panel::after{color:var(--accent3)}
+.proj-card-full:hover .bn-panel{transform:translateY(-5px);box-shadow:0 12px 32px rgba(0,0,0,.3)}
+.proj-card-full:hover .bn-panel:nth-child(2){transition-delay:.05s}
+.proj-card-full:hover .bn-panel:nth-child(3){transition-delay:.1s}
+
+/* Card body */
+.proj-body{padding:1.6rem 2rem 2rem;flex:1;display:flex;flex-direction:column}
+.proj-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;margin-bottom:.4rem}
+.proj-title{font-family:'Playfair Display',serif;font-size:1.22rem;font-weight:900;color:var(--text);letter-spacing:-.02em;line-height:1.25}
+.proj-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);white-space:nowrap;flex-shrink:0;margin-top:.2rem}
+.proj-stack{font-size:.75rem;color:var(--accent2);font-style:italic;margin:.5rem 0 .9rem}
+.proj-desc{font-size:.86rem;color:var(--text2);line-height:1.85;flex:1;margin-bottom:1.2rem}
+.proj-tags{display:flex;gap:.38rem;flex-wrap:wrap;margin-bottom:1.4rem}
+.pt{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;padding:.22rem .65rem;border-radius:100px;border:1.5px solid;transition:transform .2s,box-shadow .2s}
+.pt:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.pt-cyan{color:var(--accent);border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.08)}
+.pt-violet{color:var(--accent2);border-color:rgba(129,140,248,.4);background:rgba(129,140,248,.08)}
+.pt-pink{color:var(--accent3);border-color:rgba(244,114,182,.4);background:rgba(244,114,182,.08)}
+.pt-gold{color:#FFA116;border-color:rgba(255,161,22,.4);background:rgba(255,161,22,.08)}
+.pt-green{color:#34d399;border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08)}
+.pt-amber{color:#fbbf24;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08)}
+.pt-red{color:#f87171;border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)}
+
+/* Bullets */
+.proj-bullets{list-style:none;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.4rem}
+.proj-bullets li{font-size:.84rem;color:var(--text2);line-height:1.75;padding-left:1.4rem;position:relative}
+.proj-bullets li::before{content:'▹';position:absolute;left:0;color:var(--accent);font-size:.9rem;font-weight:700}
+.pc-violet .proj-bullets li::before{color:var(--accent2)}
+.pc-orange .proj-bullets li::before{color:#fb923c}
+.pc-pink   .proj-bullets li::before{color:var(--accent3)}
+.pc-green  .proj-bullets li::before{color:#34d399}
+.pc-amber  .proj-bullets li::before{color:#fbbf24}
+.pc-red    .proj-bullets li::before{color:#f87171}
+
+/* Actions */
+.proj-actions{display:flex;gap:.7rem;margin-top:auto}
+.proj-btn{flex:1;padding:.78rem .9rem;border-radius:12px;border:none;font-family:'Space Grotesk',sans-serif;font-size:.82rem;font-weight:700;display:flex;align-items:center;justify-content:center;gap:.5rem;text-decoration:none;transition:transform .3s cubic-bezier(.34,1.56,.64,1),filter .2s,box-shadow .3s;position:relative;overflow:hidden;cursor:pointer}
+.proj-btn::before{content:'';position:absolute;top:-60%;left:-80%;width:50%;height:220%;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.15) 50%,transparent 65%);transform:skewX(-20deg);transition:left .55s}
+.proj-btn:hover::before{left:130%}
+.proj-btn:hover{transform:translateY(-3px) scale(1.03);filter:brightness(1.1)}
+.proj-btn svg{width:13px;height:13px;flex-shrink:0}
+.proj-btn-main{color:#fff}
+.pc-cyan   .proj-btn-main{background:linear-gradient(135deg,#0ea5e9,var(--accent2));box-shadow:0 4px 18px rgba(56,189,248,.4)}
+.pc-violet .proj-btn-main{background:linear-gradient(135deg,var(--accent2),var(--accent3));box-shadow:0 4px 18px rgba(129,140,248,.4)}
+.pc-orange .proj-btn-main{background:linear-gradient(135deg,#f97316,#fb923c);box-shadow:0 4px 18px rgba(251,146,60,.4)}
+.pc-pink   .proj-btn-main{background:linear-gradient(135deg,var(--accent3),#e879f9);box-shadow:0 4px 18px rgba(244,114,182,.4)}
+.pc-green  .proj-btn-main{background:linear-gradient(135deg,#34d399,#0ea5e9);box-shadow:0 4px 18px rgba(52,211,153,.4)}
+.pc-amber  .proj-btn-main{background:linear-gradient(135deg,#fbbf24,#f472b6);box-shadow:0 4px 18px rgba(251,191,36,.35)}
+.pc-red    .proj-btn-main{background:linear-gradient(135deg,#f87171,#fb923c);box-shadow:0 4px 18px rgba(248,113,113,.4)}
+.proj-btn-ghost{background:rgba(255,255,255,.04);color:var(--text2);border:1.5px solid var(--border2);flex:none;padding:.78rem 1.1rem}
+[data-theme="light"] .proj-btn-ghost{background:var(--bg)}
+.proj-btn-ghost:hover{border-color:var(--accent2);color:var(--accent2);background:rgba(129,140,248,.08)}
+
+/* ── ONGOING STATUS BADGE ── */
+.ongoing-badge{display:inline-flex;align-items:center;gap:.45rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#34d399;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(52,211,153,.3);padding:.25rem .8rem;border-radius:100px;background:rgba(52,211,153,.08);white-space:nowrap;flex-shrink:0}
+.ongoing-dot{width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 6px #34d399;animation:livePulse 1.8s infinite;flex-shrink:0}
+.proj-progress{margin-bottom:1.2rem}
+.prog-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.prog-name{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);letter-spacing:.06em}
+.prog-pct{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700}
+.pc-green  .prog-pct{color:#34d399}
+.pc-amber  .prog-pct{color:#fbbf24}
+.pc-red    .prog-pct{color:#f87171}
+.prog-bar{height:4px;border-radius:100px;background:var(--border2);overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;animation:fillIn 1.4s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes fillIn{from{width:0}to{width:var(--w)}}
+.pc-green  .prog-fill{background:linear-gradient(90deg,#34d399,#0ea5e9)}
+.pc-amber  .prog-fill{background:linear-gradient(90deg,#fbbf24,#f472b6)}
+.pc-red    .prog-fill{background:linear-gradient(90deg,#f87171,#fb923c)}
+
+/* ── FILTER TABS ── */
+.proj-filter{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2.4rem}
+.pf-btn{font-family:'Space Grotesk',sans-serif;font-size:.8rem;font-weight:600;padding:.44rem 1.2rem;border-radius:100px;border:1.5px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.pf-btn:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+.pf-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 4px 20px rgba(56,189,248,.35);transform:translateY(-2px)}
+
+/* ── REVEAL ── */
+.reveal-anim{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal-anim.in{opacity:1;transform:translateY(0)}
+
+/* ── CONTACT STRIP ── */
+.contact-s{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:5rem 4rem;display:flex;align-items:center;justify-content:space-between;gap:3rem;flex-wrap:wrap;z-index:2;position:relative;transition:var(--tt)}
+.contact-s h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.03em;line-height:1.1}
+.contact-s h2 span{font-style:italic;background:linear-gradient(120deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.clinks{display:flex;flex-direction:column;gap:1rem;align-items:flex-end}
+.clink{font-family:'JetBrains Mono',monospace;font-size:.77rem;color:var(--text2);text-decoration:none;letter-spacing:.04em;display:flex;align-items:center;gap:.5rem;transition:color .2s,gap .2s}
+.clink:hover{color:var(--accent);gap:.9rem}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6rem;padding:.85rem 2rem;border-radius:12px;font-family:'Space Grotesk',sans-serif;font-size:.88rem;letter-spacing:.03em;font-weight:600;text-decoration:none;border:none;position:relative;overflow:hidden;transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,filter .25s;cursor:pointer}
+.btn:hover{transform:translateY(-4px) scale(1.04)}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 22px rgba(56,189,248,.3)}
+.btn-p:hover{box-shadow:0 10px 36px rgba(56,189,248,.5);filter:brightness(1.08)}
+.btn-s{background:var(--card);color:var(--text);border:1.5px solid var(--border2)}
+.btn-s:hover{border-color:var(--accent);color:var(--accent);box-shadow:0 8px 28px var(--glow)}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;z-index:2;position:relative;transition:var(--tt)}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted)}
+footer p span{color:var(--accent)}
+.fnav{display:flex;gap:2rem;list-style:none;flex-wrap:wrap}
+.fnav a{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--muted);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
+.fnav a:hover{color:var(--accent)}
+
+/* ── KEYFRAMES ── */
+@keyframes fadeU{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeD{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){.proj-grid{grid-template-columns:1fr}}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links,.btn-talk{display:none}
+  .nav-menu-btn{display:flex}
+  .page-hero{padding:7rem 1.5rem 3rem}
+  .sec{padding:2rem 1.5rem 4rem}
+  .contact-s{padding:3rem 1.5rem;flex-direction:column;align-items:flex-start}
+  .clinks{align-items:flex-start}
+  footer{padding:1.5rem}
+  .sec-divider{margin:0 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="grid-lines"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a href="index.html" class="nav-logo">Lakshya.</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+      <li><a href="certificates.html">Certs</a></li>
+      <li><a href="doings.html">Doings</a></li>
+    </ul>
+    <button class="btn-talk" id="navTalkBtn">Let's Talk</button>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"><span class="theme-icons"><span>🌙</span><span>☀️</span><span>✨</span></span></button>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="nav-drawer" id="navDrawer">
+  <a href="index.html">Home</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="projects.html" class="active">Projects</a>
+  <a href="certificates.html">Certs</a>
+  <a href="doings.html">Doings</a>
+</div>
+
+<!-- ═══ PAGE HERO ═══ -->
+<div class="page-hero">
+  <div class="page-hero-badge"><span class="dot-live"></span> 7 Projects · 4 Featured · 3 Ongoing</div>
+  <h1>All <em>Projects</em></h1>
+  <p>A complete showcase of my data science work — from production-grade ML pipelines and NLP tools to live BI dashboards. Plus three ongoing builds pushing new frontiers.</p>
+  <div class="page-hero-stats">
+    <div class="ph-stat"><span class="ph-stat-val">92%</span><span class="ph-stat-label">Best Accuracy</span></div>
+    <div class="ph-stat"><span class="ph-stat-val">4</span><span class="ph-stat-label">Featured</span></div>
+    <div class="ph-stat"><span class="ph-stat-val">3</span><span class="ph-stat-label">In Progress</span></div>
+    <div class="ph-stat"><span class="ph-stat-val">6+</span><span class="ph-stat-label">Tech Stacks</span></div>
+  </div>
+</div>
+
+<!-- ═══ FEATURED PROJECTS ═══ -->
+<section class="sec" id="featured">
+  <div class="sec-label">Resume Projects</div>
+  <div class="sec-title">Featured <em>Projects</em></div>
+
+  <div class="proj-filter">
+    <button class="pf-btn active" data-filter="all">All</button>
+    <button class="pf-btn" data-filter="ml">ML / AI</button>
+    <button class="pf-btn" data-filter="nlp">NLP</button>
+    <button class="pf-btn" data-filter="bi">BI / Viz</button>
+    <button class="pf-btn" data-filter="web">Web + API</button>
+  </div>
+
+  <div class="proj-grid" id="featuredGrid">
+
+    <!-- Customer Churn Prediction -->
+    <div class="proj-card-full pc-cyan reveal-anim" id="proj-churn" data-tags="ml">
+      <div class="proj-banner">
+        <div class="bn-panel">📉</div>
+        <div class="bn-panel">🔮</div>
+        <div class="bn-panel">📊</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-top">
+          <span class="proj-title">Customer Churn Prediction</span>
+          <span class="proj-date">Mar 2026</span>
+        </div>
+        <p class="proj-stack">Python · Scikit-Learn · Random Forest · Power BI · Pandas</p>
+        <p class="proj-desc">End-to-end ML pipeline predicting customer churn using Logistic Regression & Random Forest. Full exploratory data analysis, preprocessing, and feature importance analysis backed by a Power BI dashboard for stakeholder-ready insights.</p>
+        <ul class="proj-bullets">
+          <li>Built & compared Logistic Regression vs Random Forest — achieved <strong>88% accuracy</strong> with Random Forest</li>
+          <li>Full EDA pipeline: missing value imputation, outlier detection, feature correlation heatmaps</li>
+          <li>Power BI dashboard with KPI cards, churn-by-segment visuals, and drill-through filters</li>
+          <li>Feature importance analysis identified top 5 churn drivers for business action</li>
+        </ul>
+        <div class="proj-tags">
+          <span class="pt pt-cyan">Python</span><span class="pt pt-violet">Random Forest</span><span class="pt pt-cyan">Power BI</span><span class="pt pt-pink">EDA</span><span class="pt pt-violet">Scikit-Learn</span><span class="pt pt-gold">88% Accuracy</span>
+        </div>
+        <div class="proj-actions">
+          <a href="https://github.com/Lakshya-Pratap-Singh/CustomerChurn" target="_blank" class="proj-btn proj-btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>
+          <a href="#" target="_blank" class="proj-btn proj-btn-main">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+            Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cyberbullying Detection -->
+    <div class="proj-card-full pc-violet reveal-anim" id="proj-cyber" data-tags="nlp ml">
+      <div class="proj-banner">
+        <div class="bn-panel">🛡️</div>
+        <div class="bn-panel">💬</div>
+        <div class="bn-panel">🎯</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-top">
+          <span class="proj-title">Cyberbullying Detection Tool</span>
+          <span class="proj-date">Jul 2025</span>
+        </div>
+        <p class="proj-stack">Python · NLP · DSA (KMP) · Scikit-Learn · HTML / CSS</p>
+        <p class="proj-desc">NLP classifier detecting abusive and hate speech from social media text. Uniquely applies DSA — KMP string matching for optimised keyword scanning — alongside ML-based sentiment classification for dual-layer detection.</p>
+        <ul class="proj-bullets">
+          <li>Dual-layer detection: KMP string matching + ML classifier running in tandem</li>
+          <li>Achieves <strong>88% detection accuracy</strong> across hate speech and abusive-language classes</li>
+          <li>Text preprocessing pipeline: tokenisation, stopword removal, TF-IDF vectorisation</li>
+          <li>Lightweight HTML/CSS frontend for live text input and classification results</li>
+        </ul>
+        <div class="proj-tags">
+          <span class="pt pt-violet">Python</span><span class="pt pt-pink">NLP</span><span class="pt pt-violet">DSA / KMP</span><span class="pt pt-cyan">Scikit-Learn</span><span class="pt pt-gold">88% Accuracy</span>
+        </div>
+        <div class="proj-actions">
+          <a href="https://github.com/Lakshya-Pratap-Singh/CyberBullyingDetector" target="_blank" class="proj-btn proj-btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>
+          <a href="https://cyberbullyingdetector.onrender.com/" target="_blank" class="proj-btn proj-btn-main">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+            Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Budgteers AI Travel Planner -->
+    <div class="proj-card-full pc-orange reveal-anim" id="proj-budgteers" data-tags="ml web">
+      <div class="proj-banner">
+        <div class="bn-panel">✈️</div>
+        <div class="bn-panel">🗺️</div>
+        <div class="bn-panel">🤖</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-top">
+          <span class="proj-title">Budgteers — AI Travel Planner</span>
+          <span class="proj-date">Mar 2025</span>
+        </div>
+        <p class="proj-stack">Python · Flask · Google Maps API · Scikit-Learn · Pandas</p>
+        <p class="proj-desc">AI chatbot that auto-calculates travel expenses using Google Maps API for live route data and real-time hotel pricing. Trained on vehicle-wise expense records, reducing manual planning time by 60%.</p>
+        <ul class="proj-bullets">
+          <li>Achieves <strong>92% prediction accuracy</strong> on travel cost estimation across vehicle types</li>
+          <li>Google Maps API integration for real-time distance, route, and fuel cost calculation</li>
+          <li>Flask backend serving conversational chatbot interface with session state management</li>
+          <li>Reduces manual itinerary planning time by 60% vs traditional methods</li>
+        </ul>
+        <div class="proj-tags">
+          <span class="pt pt-cyan">Flask</span><span class="pt pt-violet">Google Maps API</span><span class="pt pt-pink">Scikit-Learn</span><span class="pt pt-cyan">Python</span><span class="pt pt-gold">92% Accuracy</span>
+        </div>
+        <div class="proj-actions">
+          <a href="https://github.com/aniketmoney/Budgeteers" target="_blank" class="proj-btn proj-btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>
+          <a href="https://aniketmoney.github.io/Budgeteers/" target="_blank" class="proj-btn proj-btn-main">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+            Live Demo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- US Health Dashboard -->
+    <div class="proj-card-full pc-pink reveal-anim" id="proj-health" data-tags="bi">
+      <div class="proj-banner">
+        <div class="bn-panel">🏥</div>
+        <div class="bn-panel">📊</div>
+        <div class="bn-panel">📈</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-top">
+          <span class="proj-title">US Health Analysis Dashboard</span>
+          <span class="proj-date">Nov 2025</span>
+        </div>
+        <p class="proj-stack">Power BI · Excel · DAX</p>
+        <p class="proj-desc">Interactive Power BI dashboard integrating multiple U.S. healthcare datasets. KPI metrics and dynamic visualisations enable efficient detection of patterns in patient statistics, medical services, and healthcare costs.</p>
+        <ul class="proj-bullets">
+          <li>Integrated 4 U.S. healthcare datasets with Excel Power Query for clean, merged data model</li>
+          <li>15+ custom DAX measures for KPI cards: avg. treatment cost, patient volume, readmission rate</li>
+          <li>Drill-through pages enabling state-level and hospital-level deep-dives</li>
+          <li>Identified 3 key cost-driver segments, surfacing actionable insights for healthcare analysts</li>
+        </ul>
+        <div class="proj-tags">
+          <span class="pt pt-gold">Power BI</span><span class="pt pt-cyan">Excel</span><span class="pt pt-violet">DAX</span><span class="pt pt-pink">Healthcare</span><span class="pt pt-cyan">KPIs</span>
+        </div>
+        <div class="proj-actions">
+          <!--<a href="#" target="_blank" class="proj-btn proj-btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub
+          </a>-->
+          <a href="https://drive.google.com/drive/folders/19l0Lu2z1mrbcnFFbDFvynUQwX1KbCFTu?usp=drive_link" target="_blank" class="proj-btn proj-btn-main">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+            View Resources
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ═══ ONGOING PROJECTS ═══ -->
+<section class="sec" id="ongoing">
+  <div class="sec-label">In Progress</div>
+  <div class="sec-title">Ongoing <em>Builds</em></div>
+
+  <div class="proj-grid">
+
+    <!-- Stock Price Predictor -->
+    <div class="proj-card-full pc-green reveal-anim" id="proj-stock">
+      <div class="proj-banner">
+        <div class="bn-panel">📈</div>
+        <div class="bn-panel">🧠</div>
+        <div class="bn-panel">💹</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-top">
+          <span class="proj-title">Stock Price Predictor — LSTM</span>
+          <div class="ongoing-badge"><span class="ongoing-dot"></span>In Progress</div>
+        </div>
+        <p class="proj-stack">Python · TensorFlow / Keras · LSTM · yFinance · Matplotlib</p>
+        <p class="proj-desc">Deep learning model using stacked LSTM layers to predict next-day closing prices for NSE-listed stocks. Pulls live data via yFinance API, applies sliding window sequences, and visualises predictions vs actuals in real time.</p>
+        <ul class="proj-bullets">
+          <li>Stacked LSTM with dropout regularisation trained on 5 years of OHLCV data</li>
+          <li>Sliding window preprocessing: 60-day lookback sequences for temporal pattern capture</li>
+          <li>Live yFinance data feed — model re-trains on new weekly data automatically</li>
+          <li>Evaluation: RMSE, MAE, and directional accuracy metrics across 10 stocks</li>
+        </ul>
+        <div class="proj-progress">
+          <div class="prog-label"><span class="prog-name">Overall Progress</span><span class="prog-pct">65%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="--w:65%"></div></div>
+        </div>
+        <div class="proj-tags">
+          <span class="pt pt-green">TensorFlow</span><span class="pt pt-cyan">LSTM</span><span class="pt pt-green">yFinance</span><span class="pt pt-violet">Python</span><span class="pt pt-cyan">Time Series</span>
+        </div>
+        <div class="proj-actions">
+          <a href="#" target="_blank" class="proj-btn proj-btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub (WIP)
+          </a>
+          <a href="#" class="proj-btn proj-btn-main">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+            Preview Soon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- IPL Analytics Dashboard -->
+    <div class="proj-card-full pc-amber reveal-anim" id="proj-ipl">
+      <div class="proj-banner">
+        <div class="bn-panel">🏏</div>
+        <div class="bn-panel">📊</div>
+        <div class="bn-panel">🏆</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-top">
+          <span class="proj-title">IPL Analytics Dashboard</span>
+          <div class="ongoing-badge"><span class="ongoing-dot"></span>In Progress</div>
+        </div>
+        <p class="proj-stack">Python · Pandas · Tableau · MySQL · EDA</p>
+        <p class="proj-desc">Comprehensive IPL cricket analytics platform covering all seasons from 2008 to 2024. Deep player and team performance analysis with Tableau dashboards featuring win probability trends, batting consistency scores, and venue breakdowns.</p>
+        <ul class="proj-bullets">
+          <li>MySQL database storing 200K+ ball-by-ball records across 17 IPL seasons</li>
+          <li>Python EDA pipeline computing 40+ custom stats: strike rate under pressure, death-over economy</li>
+          <li>Tableau dashboards with interactive filters by season, team, player, and venue</li>
+          <li>Win probability model trained on first-innings scoring patterns — 79% directional accuracy</li>
+        </ul>
+        <div class="proj-progress">
+          <div class="prog-label"><span class="prog-name">Overall Progress</span><span class="prog-pct">45%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="--w:45%"></div></div>
+        </div>
+        <div class="proj-tags">
+          <span class="pt pt-amber">Tableau</span><span class="pt pt-cyan">MySQL</span><span class="pt pt-violet">Pandas</span><span class="pt pt-amber">Python</span><span class="pt pt-pink">Sports Analytics</span>
+        </div>
+        <div class="proj-actions">
+          <a href="#" target="_blank" class="proj-btn proj-btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub (WIP)
+          </a>
+          <a href="#" class="proj-btn proj-btn-main">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+            Preview Soon
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fake News Detector -->
+    <div class="proj-card-full pc-red reveal-anim" id="proj-fakenews">
+      <div class="proj-banner">
+        <div class="bn-panel">📰</div>
+        <div class="bn-panel">🔍</div>
+        <div class="bn-panel">⚡</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-top">
+          <span class="proj-title">Fake News Detector — NLP + BERT</span>
+          <div class="ongoing-badge"><span class="ongoing-dot"></span>In Progress</div>
+        </div>
+        <p class="proj-stack">Python · HuggingFace Transformers · BERT · Flask · Pandas</p>
+        <p class="proj-desc">Fine-tuned BERT model for binary fake/real news classification using the LIAR and FakeNewsNet datasets. Flask API wraps the model for real-time inference, with a clean frontend for paste-and-predict functionality.</p>
+        <ul class="proj-bullets">
+          <li>Fine-tuning BERT-base-uncased on 12K labelled news articles across 6 credibility classes</li>
+          <li>Data augmentation via back-translation to combat class imbalance in training set</li>
+          <li>Flask REST API with rate limiting — returns label, confidence score, and flagged sentences</li>
+          <li>Target: surpass baseline passive-aggressive classifier (91%) with BERT fine-tune</li>
+        </ul>
+        <div class="proj-progress">
+          <div class="prog-label"><span class="prog-name">Overall Progress</span><span class="prog-pct">30%</span></div>
+          <div class="prog-bar"><div class="prog-fill" style="--w:30%"></div></div>
+        </div>
+        <div class="proj-tags">
+          <span class="pt pt-red">BERT</span><span class="pt pt-pink">NLP</span><span class="pt pt-red">HuggingFace</span><span class="pt pt-cyan">Flask</span><span class="pt pt-violet">Python</span>
+        </div>
+        <div class="proj-actions">
+          <a href="#" target="_blank" class="proj-btn proj-btn-ghost">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            GitHub (WIP)
+          </a>
+          <a href="#" class="proj-btn proj-btn-main">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+            Preview Soon
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<div class="contact-s">
+  <div>
+    <h2>Got a project<br><span>in mind?</span></h2>
+    <p style="margin-top:.8rem;color:var(--text2);font-size:.95rem;max-width:440px;line-height:1.75">Whether it's a data science collaboration, internship opportunity, or just a chat about ML — I'm always open.</p>
+  </div>
+  <div class="clinks">
+    <a href="mailto:lakshya@example.com" class="clink">
+      <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2-1a1 1 0 00-1 1v.217l7 4.2 7-4.2V4a1 1 0 00-1-1H2zm13 2.383l-4.708 2.825L15 11.105V5.383zm-.034 6.876l-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 002 13h12a1 1 0 00.966-.741zM1 11.105l4.708-2.897L1 5.383v5.722z"/></svg>
+      lakshya@example.com
+    </a>
+    <a href="https://linkedin.com/in/lakshya" target="_blank" class="clink">
+      <svg viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 01.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/></svg>
+      linkedin.com/in/lakshya
+    </a>
+    <a href="portfolio.html" class="btn btn-p" style="margin-top:.5rem">
+      <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.5 7.5a.5.5 0 000 1h5.793l-2.147 2.146a.5.5 0 00.708.708l3-3a.5.5 0 000-.708l-3-3a.5.5 0 10-.708.708L10.293 7.5H4.5z"/></svg>
+      Back to Portfolio
+    </a>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p>© 2026 <span>Lakshya Pratap Singh</span> · Built with passion & Python</p>
+  <ul class="fnav">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="certificates.html">Certs</a></li>
+  </ul>
+</footer>
+
+<script>
+/* ── THEME ── */
+const H=document.documentElement;
+H.setAttribute('data-theme',localStorage.getItem('lps-theme')||'dark');
+document.getElementById('themeBtn').addEventListener('click',()=>{
+  const themes=['dark','light','bright'];
+  const cur=H.getAttribute('data-theme');
+  const n=themes[(themes.indexOf(cur)+1)%themes.length];
+  H.setAttribute('data-theme',n);localStorage.setItem('lps-theme',n);
+});
+
+/* ── MOBILE MENU ── */
+const menuBtn=document.getElementById('menuBtn'),drawer=document.getElementById('navDrawer');
+menuBtn.addEventListener('click',()=>{menuBtn.classList.toggle('open');drawer.classList.toggle('open');});
+drawer.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{menuBtn.classList.remove('open');drawer.classList.remove('open');}));
+
+/* ── CANVAS PARTICLES ── */
+const cv=document.getElementById('bgCanvas'),cx=cv.getContext('2d');
+let W,Ht,pts=[];
+function resize(){W=cv.width=window.innerWidth;Ht=cv.height=window.innerHeight;}
+window.addEventListener('resize',()=>{resize();mkPts();});
+const isDk=()=>H.getAttribute('data-theme')==='dark';
+function mkPts(){pts=[];const n=Math.min(Math.floor(W*Ht/13000),72);for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*Ht,vx:(Math.random()-.5)*.38,vy:(Math.random()-.5)*.38,r:Math.random()*1.6+.4,o:Math.random()*.42+.1});}
+let mx=-9999,my=-9999;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+function drawBg(){
+  cx.clearRect(0,0,W,Ht);
+  const dk=isDk(),pc=dk?'56,189,248':'2,132,199',lc=dk?'56,189,248':'79,70,229',t=Date.now()/1000;
+  [[W*(.72+.08*Math.sin(t*.28)),Ht*(.2+.08*Math.cos(t*.22)),dk?'rgba(56,189,248,.07)':'rgba(2,132,199,.04)'],[W*(.18+.07*Math.cos(t*.19)),Ht*(.72+.07*Math.sin(t*.26)),dk?'rgba(129,140,248,.06)':'rgba(79,70,229,.04)']].forEach(([ox,oy,col])=>{const g=cx.createRadialGradient(ox,oy,0,ox,oy,W*.38);g.addColorStop(0,col);g.addColorStop(1,'transparent');cx.fillStyle=g;cx.fillRect(0,0,W,Ht);});
+  for(let i=0;i<pts.length;i++){const p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=Ht;if(p.y>Ht)p.y=0;const dx=p.x-mx,dy=p.y-my,d2=dx*dx+dy*dy;if(d2<9000){const d=Math.sqrt(d2);p.x+=dx/d*1.3;p.y+=dy/d*1.3;}cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle='rgba('+pc+','+p.o+')';cx.fill();for(let j=i+1;j<pts.length;j++){const q=pts[j],dd=Math.hypot(p.x-q.x,p.y-q.y);if(dd<130){cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);cx.strokeStyle='rgba('+lc+','+((.12*(1-dd/130)))+')';cx.lineWidth=.6;cx.stroke();}}}
+  requestAnimationFrame(drawBg);
+}
+resize();mkPts();drawBg();
+
+/* ── SCROLL REVEAL ── */
+document.querySelectorAll('.reveal-anim').forEach(el=>{
+  const obs=new IntersectionObserver(([e])=>{
+    if(e.isIntersecting){el.classList.add('in');obs.unobserve(el);}
+  },{threshold:0,rootMargin:'0px 0px -40px 0px'});
+  obs.observe(el);
+});
+
+/* ── FILTER ── */
+document.querySelectorAll('.pf-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.pf-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    document.querySelectorAll('#featuredGrid .proj-card-full').forEach(card=>{
+      const tags=card.dataset.tags||'';
+      const show=f==='all'||tags.includes(f);
+      card.style.display=show?'flex':'none';
+    });
+  });
+});
+
+/* ── MAGNETIC BUTTONS ── */
+document.querySelectorAll('.proj-btn,.btn-talk,.btn').forEach(b=>{
+  b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)*.1,y=(e.clientY-r.top-r.height/2)*.1;b.style.transform='translate('+x+'px,'+y+'px) translateY(-3px) scale(1.03)';});
+  b.addEventListener('mouseleave',()=>{b.style.transform='';});
+});
+
+/* ── HIGHLIGHT FROM SKILL LINK ── */
+const params=new URLSearchParams(window.location.search);
+const toHighlight=(params.get('highlight')||'').split(',').filter(Boolean);
+const hash=window.location.hash.replace('#','');
+if(toHighlight.length){
+  // Wait for reveal anims to settle, then scroll + flash
+  setTimeout(()=>{
+    const first=document.getElementById(toHighlight[0]||hash);
+    if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
+    toHighlight.forEach(id=>{
+      const card=document.getElementById(id);
+      if(!card)return;
+      card.style.transition='box-shadow .4s,border-color .4s';
+      card.style.boxShadow='0 0 0 3px var(--accent),0 0 40px var(--glow)';
+      card.style.borderColor='var(--accent)';
+      setTimeout(()=>{card.style.boxShadow='';card.style.borderColor='';},2200);
+    });
+  },600);
+} else if(hash){
+  setTimeout(()=>{
+    const el=document.getElementById(hash);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  },400);
+}
+</script>
+</body>
+</html>
